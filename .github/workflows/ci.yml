@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20.x'
+
+jobs:
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: Install dependencies
+      working-directory: backend
+      run: npm install
+    
+    - name: Run tests
+      working-directory: backend
+      run: npm test
+      env:
+        NODE_ENV: test
+        USE_MOCK_DB: true
+        JWT_ACCESS_SECRET: test-secret-min-64-chars-for-jwt-testing-purposes-only-secure
+        JWT_REFRESH_SECRET: test-refresh-min-64-chars-for-jwt-testing-purposes-only-secure
+
+  frontend-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: Install dependencies
+      working-directory: frontend
+      run: npm install
+    
+    - name: Build
+      working-directory: frontend
+      run: npm run build
+
