@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🌳 ECONEURA - Enterprise AI Ecosystem
 
 **Plataforma de Inteligencia Colectiva con 10 NEURA y 40 Agentes Automatizados**
@@ -375,3 +376,6 @@ Este proyecto está bajo licencia MIT - ver el archivo [LICENSE](LICENSE) para d
 **Made with ❤️ by ECONEURA Team**
 
 ![ECONEURA](frontend/public/logo-econeura.png)
+=======
+# ECONEURA-
+>>>>>>> 83dca439f955ad5a2afcb4253f80a52a962dbbcd
