@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Mock Login</title></head>
+<body>
+<script>
+localStorage.setItem("econeura_token", "mock_dev_token_12345");
+localStorage.setItem("econeura_user", JSON.stringify({
+  id: "dev-1",
+  email: "developer@econeura.com",
+  name: "Developer ECONEURA",
+  role: "admin"
+}));
+window.location.href = "/";
+</script>
+<p>Redirecting to cockpit...</p>
+</body>
+</html>

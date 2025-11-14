@@ -1,0 +1,68 @@
+=============================================================================
+ECONEURA - COMANDOS MANUALES PARA EJECUTAR AHORA
+=============================================================================
+
+⚠️ IMPORTANTE: Ejecuta estos comandos en PowerShell MANUALMENTE
+               (NO en Cursor Composer)
+
+-----------------------------------------------------------------------------
+PASO 1: LIMPIAR PROCESOS NODE
+-----------------------------------------------------------------------------
+
+Get-Process | Where-Object { $_.ProcessName -like "*node*" } | Stop-Process -Force
+
+-----------------------------------------------------------------------------
+PASO 2: TERMINAL 1 - BACKEND
+-----------------------------------------------------------------------------
+
+cd C:\Users\Usuario\ECONEURA-OK\backend
+node server-simple.js
+
+ESPERAR: "✅ ECONEURA Backend Simple - RUNNING"
+
+-----------------------------------------------------------------------------
+PASO 3: TERMINAL 2 - VERIFICAR BACKEND
+-----------------------------------------------------------------------------
+
+curl http://localhost:3001/api/health
+
+ESPERAR: {"status":"ok"...}
+
+-----------------------------------------------------------------------------
+PASO 4: TERMINAL 3 - FRONTEND
+-----------------------------------------------------------------------------
+
+cd C:\Users\Usuario\ECONEURA-OK\frontend
+npm run dev
+
+ESPERAR: "Local: http://localhost:5173/"
+
+-----------------------------------------------------------------------------
+PASO 5: NAVEGADOR
+-----------------------------------------------------------------------------
+
+Abrir: http://localhost:5173
+
+ESPERAR: Ver pantalla de LOGIN de ECONEURA
+
+-----------------------------------------------------------------------------
+PASO 6: PROBAR LOGIN
+-----------------------------------------------------------------------------
+
+Email: test@econeura.com
+Password: mock
+
+ESPERAR: Ver COCKPIT principal
+
+-----------------------------------------------------------------------------
+PASO 7: REPORTAR RESULTADO
+-----------------------------------------------------------------------------
+
+Si TODO funciona:
+  → Responder: "OK, proceder a Azure"
+
+Si hay problemas:
+  → Responder: "Problema con X" (especificar qué falla)
+
+=============================================================================
+

@@ -1,0 +1,107 @@
+name: 🐛 Bug Report
+description: Reporta un bug en ECONEURA
+title: "[BUG]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportar este bug. Por favor completa la información para ayudarnos a resolverlo.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción del Bug
+      description: Una descripción clara del bug
+      placeholder: El sistema...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para Reproducir
+      description: Pasos para reproducir el comportamiento
+      placeholder: |
+        1. Ve a '...'
+        2. Click en '...'
+        3. Scroll hasta '...'
+        4. Ve el error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamiento Esperado
+      description: Qué esperabas que pasara
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamiento Actual
+      description: Qué pasó en realidad
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Componente Afectado
+      options:
+        - Backend API
+        - Frontend Web
+        - Base de Datos
+        - Autenticación
+        - NEURA (IA)
+        - Agentes Make
+        - Despliegue Azure
+        - Otro
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: Versión de ECONEURA
+      placeholder: v3.0.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/Screenshots
+      description: Agrega logs, screenshots o videos si aplica
+      placeholder: Pega logs aquí o arrastra imágenes
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severidad
+      options:
+        - 🔴 Crítico (sistema no funciona)
+        - 🟡 Alto (funcionalidad importante no funciona)
+        - 🟢 Medio (funcionalidad menor afectada)
+        - ⚪ Bajo (cosmético)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: He buscado si este issue ya existe
+          required: true
+        - label: He incluido toda la información relevante
+          required: true
+
+

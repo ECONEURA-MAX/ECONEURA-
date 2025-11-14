@@ -1,0 +1,85 @@
+name: ✨ Feature Request
+description: Sugiere una nueva funcionalidad para ECONEURA
+title: "[FEATURE]: "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por tu sugerencia! Ayúdanos a entender tu idea.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema a Resolver
+      description: ¿Qué problema resuelve esta funcionalidad?
+      placeholder: Como usuario necesito...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solución Propuesta
+      description: ¿Cómo funcionaría esta feature?
+      placeholder: La solución ideal sería...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas Consideradas
+      description: ¿Hay otras formas de resolver esto?
+      placeholder: Alternativamente se podría...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Componente
+      options:
+        - Backend API
+        - Frontend Web
+        - NEURA (IA)
+        - Agentes Make
+        - Base de Datos
+        - Documentación
+        - Otro
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridad Sugerida
+      options:
+        - 🔴 Alta (necesaria para producción)
+        - 🟡 Media (mejoraría significativamente)
+        - 🟢 Baja (nice to have)
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto Adicional
+      description: Cualquier otra información relevante
+      placeholder: Screenshots, links, ejemplos...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: He buscado si esta feature ya fue solicitada
+          required: true
+        - label: Esta feature beneficiaría a otros usuarios
+          required: true
+
+

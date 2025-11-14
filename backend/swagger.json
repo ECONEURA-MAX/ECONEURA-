@@ -1,0 +1,604 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ECONEURA API",
+    "description": "Enterprise AI Ecosystem - Backend API Documentation",
+    "version": "3.0.0",
+    "contact": {
+      "name": "ECONEURA Support",
+      "email": "support@econeura.com",
+      "url": "https://econeura.com"
+    },
+    "license": {
+      "name": "Proprietary",
+      "url": "https://econeura.com/license"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Development server"
+    },
+    {
+      "url": "https://econeura-backend-prod.azurewebsites.net/api",
+      "description": "Production server (Azure)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication & Authorization (JWT + OAuth 2.0)"
+    },
+    {
+      "name": "NEURA",
+      "description": "10 NEURA specialized agents (CEO, CTO, CFO, etc.)"
+    },
+    {
+      "name": "Agents",
+      "description": "Make/n8n agent management & execution"
+    },
+    {
+      "name": "Chat",
+      "description": "Chat history & conversations"
+    },
+    {
+      "name": "Library",
+      "description": "RAG Library (document upload & search)"
+    },
+    {
+      "name": "Proposals",
+      "description": "HITL (Human-in-the-Loop) proposals"
+    },
+    {
+      "name": "Integration",
+      "description": "Webhooks & external integrations (Make, n8n, Zapier)"
+    },
+    {
+      "name": "Health",
+      "description": "Health checks & metrics"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register new user",
+        "description": "Create a new user account with email and password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {"type": "string", "format": "email"},
+                  "password": {"type": "string", "minLength": 6},
+                  "name": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/AuthResponse"}
+              }
+            }
+          },
+          "400": {"description": "Invalid input"},
+          "409": {"description": "Email already exists"}
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login user",
+        "description": "Authenticate user with email and password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {"type": "string", "format": "email"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/AuthResponse"}
+              }
+            }
+          },
+          "401": {"description": "Invalid credentials"}
+        }
+      }
+    },
+    "/auth/microsoft": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Microsoft OAuth login",
+        "description": "Initiate Microsoft OAuth 2.0 flow",
+        "responses": {
+          "302": {"description": "Redirect to Microsoft login"}
+        }
+      }
+    },
+    "/auth/github": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "GitHub OAuth login",
+        "description": "Initiate GitHub OAuth 2.0 flow",
+        "responses": {
+          "302": {"description": "Redirect to GitHub login"}
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh access token",
+        "description": "Get new access token using refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["refreshToken"],
+                "properties": {
+                  "refreshToken": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token refreshed",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/AuthResponse"}
+              }
+            }
+          },
+          "401": {"description": "Invalid refresh token"}
+        }
+      }
+    },
+    "/auth/user": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user",
+        "description": "Get authenticated user information",
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/User"}
+              }
+            }
+          },
+          "401": {"description": "Unauthorized"}
+        }
+      }
+    },
+    "/invoke/{agentId}": {
+      "post": {
+        "tags": ["NEURA"],
+        "summary": "Invoke NEURA agent",
+        "description": "Execute a specific NEURA agent (CEO, CTO, CFO, etc.)",
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "NEURA agent ID (a-ceo-01, a-cto-01, etc.)"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": {"type": "string", "description": "User message"},
+                  "context": {"type": "object", "description": "Additional context"},
+                  "stream": {"type": "boolean", "default": false}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "output": {"type": "string"},
+                    "agentId": {"type": "string"},
+                    "model": {"type": "string"},
+                    "tokens": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          },
+          "400": {"description": "Invalid request"},
+          "500": {"description": "Execution error"}
+        }
+      }
+    },
+    "/ai-gateway/chat": {
+      "post": {
+        "tags": ["NEURA"],
+        "summary": "AI Gateway chat",
+        "description": "Main chat endpoint with resilient AI gateway",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["messages"],
+                "properties": {
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {"type": "string", "enum": ["user", "assistant", "system"]},
+                        "content": {"type": "string"}
+                      }
+                    }
+                  },
+                  "neuraId": {"type": "integer", "minimum": 0, "maximum": 9},
+                  "stream": {"type": "boolean", "default": false}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Chat response"},
+          "500": {"description": "AI gateway error"}
+        }
+      }
+    },
+    "/agents": {
+      "get": {
+        "tags": ["Agents"],
+        "summary": "List all agents",
+        "description": "Get all Make/n8n agents registered",
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "List of agents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Agent"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Agents"],
+        "summary": "Create agent",
+        "description": "Register new Make/n8n agent",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/AgentCreate"}
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "Agent created"},
+          "400": {"description": "Invalid data"}
+        }
+      }
+    },
+    "/agents/{agentId}/execute": {
+      "post": {
+        "tags": ["Agents"],
+        "summary": "Execute agent",
+        "description": "Execute Make/n8n agent webhook",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "input": {"type": "object"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Agent executed"},
+          "404": {"description": "Agent not found"}
+        }
+      }
+    },
+    "/chats": {
+      "get": {
+        "tags": ["Chat"],
+        "summary": "Get chat history",
+        "description": "Get user's chat conversations",
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Chat history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Chat"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/library/documents": {
+      "post": {
+        "tags": ["Library"],
+        "summary": "Upload document",
+        "description": "Upload document to RAG library",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {"type": "string", "format": "binary"},
+                  "category": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "Document uploaded"},
+          "400": {"description": "Invalid file"}
+        }
+      }
+    },
+    "/library/search": {
+      "post": {
+        "tags": ["Library"],
+        "summary": "Search documents",
+        "description": "Semantic search in RAG library",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {"type": "string"},
+                  "limit": {"type": "integer", "default": 10}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Search results"}
+        }
+      }
+    },
+    "/proposals": {
+      "get": {
+        "tags": ["Proposals"],
+        "summary": "List proposals",
+        "description": "Get HITL proposals pending approval",
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "List of proposals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Proposal"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/proposals/{proposalId}/approve": {
+      "post": {
+        "tags": ["Proposals"],
+        "summary": "Approve proposal",
+        "description": "Approve HITL proposal and execute action",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "proposalId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {"description": "Proposal approved"},
+          "404": {"description": "Proposal not found"}
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check",
+        "description": "Check API health status",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string", "enum": ["ok", "degraded", "error"]},
+                    "timestamp": {"type": "string", "format": "date-time"},
+                    "uptime": {"type": "integer"},
+                    "services": {"type": "object"}
+                  }
+                }
+              }
+            }
+          },
+          "503": {"description": "Service unavailable"}
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Prometheus metrics",
+        "description": "Get Prometheus-format metrics",
+        "responses": {
+          "200": {
+            "description": "Metrics in Prometheus format",
+            "content": {
+              "text/plain": {
+                "schema": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "email": {"type": "string", "format": "email"},
+          "name": {"type": "string"},
+          "role": {"type": "string", "enum": ["user", "admin"]}
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {"type": "string"},
+          "refreshToken": {"type": "string"},
+          "expiresIn": {"type": "integer"},
+          "user": {"$ref": "#/components/schemas/User"}
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "webhookUrl": {"type": "string", "format": "uri"},
+          "provider": {"type": "string", "enum": ["make", "n8n", "zapier"]},
+          "neuraId": {"type": "integer"},
+          "active": {"type": "boolean"}
+        }
+      },
+      "AgentCreate": {
+        "type": "object",
+        "required": ["name", "webhookUrl", "provider"],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "webhookUrl": {"type": "string", "format": "uri"},
+          "provider": {"type": "string", "enum": ["make", "n8n", "zapier"]},
+          "neuraId": {"type": "integer", "minimum": 0, "maximum": 9}
+        }
+      },
+      "Chat": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "userId": {"type": "string"},
+          "neuraId": {"type": "integer"},
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {"type": "string"},
+                "content": {"type": "string"},
+                "timestamp": {"type": "string", "format": "date-time"}
+              }
+            }
+          },
+          "createdAt": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Proposal": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "neuraId": {"type": "integer"},
+          "action": {"type": "string"},
+          "description": {"type": "string"},
+          "data": {"type": "object"},
+          "status": {"type": "string", "enum": ["pending", "approved", "rejected"]},
+          "createdAt": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}
+
