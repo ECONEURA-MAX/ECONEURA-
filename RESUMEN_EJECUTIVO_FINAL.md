@@ -101,8 +101,8 @@
 
 ### Core Features (10/10)
 
-- ✅ **10 NEURA Agentes**: CEO, IA, CSO, CTO, CISO, COO, CHRO, CMO, CFO, CDO
-- ✅ **40+ Agentes Make/n8n**: Integración completa con webhooks
+- ✅ **11 NEURA Agentes**: CEO, IA, CSO, CTO, CISO, COO, CHRO, CMO, CFO, CDO
+- ✅ **55+ conexiones/agentes Make/n8n**: Integración completa con webhooks
 - ✅ **Chat GPT-5**: Streaming, markdown, referencias
 - ✅ **Multi-Actor Reasoning**: Consenso entre NEURA
 - ✅ **HITL**: Human-in-the-Loop para aprobaciones

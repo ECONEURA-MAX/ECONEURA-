@@ -8,7 +8,7 @@
 [![Azure](https://img.shields.io/badge/Azure-Ready-blue.svg)](https://azure.microsoft.com)
 [![Code Quality](https://img.shields.io/badge/Quality-9.5%2F10-success.svg)](HITO_ESTRATEGIA_AZURE_V2_COMPLETADO.md)
 
-> **Plataforma SaaS Enterprise de Inteligencia Colectiva con 10 NEURA + 40 Agentes Automatizados**
+> **Plataforma SaaS Enterprise de Inteligencia Colectiva con 11 NEURA + 55 agentes Automatizados**
 
 ---
 
@@ -59,7 +59,7 @@ npm run dev
 
 ECONEURA es un **ecosistema de inteligencia artificial empresarial enterprise-grade** que democratiza el acceso a IA avanzada mediante:
 
-### 🧠 10 NEURA - Agentes AI Especializados
+### 🧠 11 NEURA - Agentes AI Especializados
 
 | NEURA | Rol | Especialización |
 |-------|-----|-----------------|
@@ -74,7 +74,7 @@ ECONEURA es un **ecosistema de inteligencia artificial empresarial enterprise-gr
 | 💰 CFO | Chief Financial | Análisis financiero y presupuestos |
 | 📊 CDO | Chief Data | Big Data, analytics y visualización |
 
-### 🤖 40+ Agentes Make/n8n
+### 🤖 55+ conexiones/agentes Make/n8n
 
 Automatizaciones empresariales configurables que se integran con:
 - 🔗 **Make.com**: Workflows visuales sin código
@@ -106,7 +106,7 @@ ECONEURA/
 ├── backend/                    # Node.js + Express API
 │   ├── api/                   # REST endpoints (health, metrics)
 │   ├── routes/                # Rutas (auth, ai-gateway, agents)
-│   ├── services/              # Lógica de negocio (10 NEURA)
+│   ├── services/              # Lógica de negocio (11 NEURA)
 │   ├── middleware/            # Auth, rate limiting, CORS
 │   ├── config/                # DB, Redis, Azure services
 │   ├── prompts/               # System prompts especializados
@@ -362,8 +362,8 @@ Para bugs o feature requests, crea un issue en GitHub:
 
 ### Q1 2025 ✅ (Completado)
 - ✅ Arquitectura monorepo establecida
-- ✅ 10 NEURA implementadas y funcionales
-- ✅ 40+ agentes Make/n8n integrados
+- ✅ 11 NEURA implementadas y funcionales
+- ✅ 55+ conexiones/agentes Make/n8n integrados
 - ✅ OAuth 2.0 (Microsoft, Google, GitHub)
 - ✅ Chat GPT-5 con streaming
 - ✅ RAG Library con búsqueda semántica

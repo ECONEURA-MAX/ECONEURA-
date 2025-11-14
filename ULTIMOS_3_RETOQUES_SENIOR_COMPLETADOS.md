@@ -171,7 +171,7 @@ README **enterprise-grade** con:
 ✅ Badges (CI/CD, calidad, licencia, Azure)
 ✅ Quick Start (2 opciones: automático + local)
 ✅ Descripción completa de ECONEURA
-✅ Tabla de 10 NEURA con especialización
+✅ Tabla de 11 NEURA con especialización
 ✅ Features enterprise detalladas
 ✅ Arquitectura (monorepo structure + tech stack)
 ✅ Métricas de calidad (tests, coverage, vulnerabilities)
